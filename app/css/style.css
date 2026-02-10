@@ -924,7 +924,12 @@ body.dark-mode .action-btn .icon {
     }
 
     .right-sidebar {
-        display: none;
+         width: 100%;
+        height: auto;
+        position: static;
+        border-left: none;
+        border-top: 1px solid var(--light-border);
+        padding: 16px;
     }
 
     .main-content {
