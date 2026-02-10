@@ -4,6 +4,7 @@ class DevOpsTracker {
         this.learningPath = [];
         this.progress = {};
         this.theme = localStorage.getItem('theme') || 'light-mode';
+        this.topicAccentMap = {};
         this.init();
     }
 
@@ -27,6 +28,7 @@ class DevOpsTracker {
             }
 
             this.learningPath = data.devops_learning_path || {};
+            this.topicAccentMap = {};
             this.loadProgress();
             this.renderContent();
             
@@ -71,15 +73,18 @@ class DevOpsTracker {
         const wrapper = document.getElementById('contentWrapper');
         if (!Object.keys(this.learningPath).length) {
             wrapper.innerHTML = '<div class="empty-state"><h2>No learning path loaded</h2><p>Import a JSON file or load the default path.</p></div>';
+            const navList = document.getElementById('topicNav');
+            if (navList) navList.innerHTML = '';
             return;
         }
 
         const topicMap = this.organizeTopics();
         let html = '';
 
-        Object.entries(topicMap).forEach(([topicKey, topicData]) => {
+        Object.entries(topicMap).forEach(([topicKey, topicData], index) => {
+            const accentColor = this.getTopicAccentColor(topicKey, index);
             html += `
-                <div class="topic-card" data-topic-key="${topicKey}">
+                <div class="topic-card" data-topic-key="${topicKey}" style="--topic-accent: ${accentColor};">
                     <h3 class="topic-title">
                         <span>${topicData.name}</span>
                     </h3>
@@ -108,7 +113,79 @@ class DevOpsTracker {
         });
 
         wrapper.innerHTML = html;
+        this.renderRightSidebar(topicMap);
         this.attachCheckboxListeners();
+    }
+
+    // Render right sidebar topic navigation
+    renderRightSidebar(topicMap) {
+        const navList = document.getElementById('topicNav');
+        if (!navList) return;
+
+        navList.innerHTML = '';
+
+        const entries = Object.entries(topicMap || {});
+        if (!entries.length) return;
+
+        entries.forEach(([topicKey, topicData], index) => {
+            const accentColor = this.getTopicAccentColor(topicKey, index);
+            const li = document.createElement('li');
+            li.className = 'topic-nav-item';
+
+            const button = document.createElement('button');
+            button.className = 'topic-nav-link';
+            button.textContent = this.formatTopicName(topicData.name);
+            button.setAttribute('data-topic-key', topicKey);
+            button.style.setProperty('--topic-accent', accentColor);
+            button.addEventListener('click', () => {
+                this.scrollToTopic(topicKey);
+            });
+
+            li.appendChild(button);
+            navList.appendChild(li);
+        });
+    }
+
+    // Format topic name for sidebar display
+    formatTopicName(name) {
+        if (!name) return '';
+        return name
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
+    // Get an accent color for a topic, stable per key
+    getTopicAccentColor(topicKey, index) {
+        if (!this.topicAccentMap) {
+            this.topicAccentMap = {};
+        }
+
+        if (this.topicAccentMap[topicKey]) {
+            return this.topicAccentMap[topicKey];
+        }
+
+        const palette = [
+            '#2563eb', // blue
+            '#16a34a', // green
+            '#ea580c', // orange
+            '#db2777', // pink
+            '#7c3aed', // purple
+            '#0891b2', // cyan
+            '#b45309', // amber
+            '#4b5563'  // slate
+        ];
+
+        const color = palette[index % palette.length];
+        this.topicAccentMap[topicKey] = color;
+        return color;
+    }
+
+    // Smooth-scroll to a topic card in the main content
+    scrollToTopic(topicKey) {
+        const card = document.querySelector(`.topic-card[data-topic-key="${topicKey}"]`);
+        if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 
     // Attach event listeners to checkboxes
@@ -273,6 +350,7 @@ class DevOpsTracker {
             try {
                 const data = JSON.parse(e.target.result);
                 this.learningPath = data.devops_learning_path || data;
+                this.topicAccentMap = {};
                 this.loadProgress();
                 this.renderContent();
                 this.showSuccess('Learning path imported successfully!');

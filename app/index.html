@@ -21,6 +21,7 @@
         <aside class="sidebar">
             <nav class="sidebar-nav">
                 <h2>Actions</h2>
+                <h3 class="sidebar-category">Learning Path</h3>
                 <button id="importBtn" class="action-btn">
                     <span class="icon">📥</span>
                     <span>Import JSON</span>
@@ -29,10 +30,14 @@
                     <span class="icon">📤</span>
                     <span>Export JSON</span>
                 </button>
+
+                <h3 class="sidebar-category">Appearance</h3>
                 <button id="themeToggleBtn" class="action-btn">
                     <span class="icon">🌙</span>
                     <span>Toggle Theme</span>
                 </button>
+
+                <h3 class="sidebar-category">Progress</h3>
                 <button id="resetBtn" class="action-btn">
                     <span class="icon">🔄</span>
                     <span>Reset Progress</span>
@@ -64,6 +69,19 @@
                 <div id="loadingSpinner" class="spinner">Loading learning path...</div>
             </div>
         </main>
+
+        <!-- Right Sidebar: Topic Navigation -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">
+                <h2>Topics</h2>
+                <p class="right-sidebar-subtitle">Jump to a section</p>
+            </div>
+            <nav>
+                <ul id="topicNav" class="topic-nav-list">
+                    <!-- Filled dynamically via JavaScript -->
+                </ul>
+            </nav>
+        </aside>
     </div>
 
     <!-- Hidden file input for import -->
