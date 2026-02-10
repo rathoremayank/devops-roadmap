@@ -21,7 +21,7 @@ class DevOpsTracker {
 
             if (!data) {
                 // Load from local file
-                const response = await fetch('devops_learning_path.json');
+                const response = await fetch('../devops_learning_path.json');
                 if (!response.ok) throw new Error('Failed to load learning path');
                 data = await response.json();
             }
