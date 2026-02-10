@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Learning Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Hero Banner -->
+    <header class="hero-banner">
+        <div class="hero-content">
+            <h1>Welcome, Master!</h1>
+            <p>Your DevOps Learning Journey Awaits</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <h2>Actions</h2>
+                <button id="importBtn" class="action-btn">
+                    <span class="icon">📥</span>
+                    <span>Import JSON</span>
+                </button>
+                <button id="exportBtn" class="action-btn">
+                    <span class="icon">📤</span>
+                    <span>Export JSON</span>
+                </button>
+                <button id="themeToggleBtn" class="action-btn">
+                    <span class="icon">🌙</span>
+                    <span>Toggle Theme</span>
+                </button>
+                <button id="resetBtn" class="action-btn">
+                    <span class="icon">🔄</span>
+                    <span>Reset Progress</span>
+                </button>
+            </nav>
+
+            <!-- Progress Overview -->
+            <div class="progress-overview">
+                <h3>Progress</h3>
+                <div class="progress-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="completedCount">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="totalCount">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div id="contentWrapper">
+                <div id="loadingSpinner" class="spinner">Loading learning path...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <span class="modal-level" id="modalLevel"></span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3>Description</h3>
+                    <p id="modalDescription"></p>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Subtopics</h3>
+                    <ul id="modalSubtopics" class="subtopics-list"></ul>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Start Date</span>
+                        <span class="detail-value" id="modalStartDate">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">End Date</span>
+                        <span class="detail-value" id="modalEndDate">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Estimated Time</span>
+                        <span class="detail-value" id="modalEstimatedTime">—</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" id="modalStatus">—</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="modalCheckbox">
+                    <span>Mark as completed</span>
+                </label>
+                <button id="closeModalBtn" class="btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
